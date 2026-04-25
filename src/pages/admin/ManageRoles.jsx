@@ -146,8 +146,8 @@ function ManageRoles() {
         setShowloader(true);
         response = await api.post(
           "/api/auth/register",
-          { role: formData.role, name: formData.name, age: Number(formData.age), email: formData.email },
-          config
+          { role: formData.role, name: formData.name, age: Number(formData.age), email: formData.email }
+        
         );
         toast.success("User added successfully!");
       }
