@@ -14,7 +14,9 @@ import {
   FaCalendarPlus,
   FaUserTag,
   FaUserInjured,
-  FaUserMd
+  FaUserMd,
+  FaHospital,
+  FaBed
 } from "react-icons/fa";
 
 import { NavLink } from "react-router-dom";
@@ -40,6 +42,9 @@ const AdminSlidebar = ({ role, handleLogout }) => {
       { name: "Requests", path: "/admin/requests", icon: <FaEnvelopeOpenText /> },
       { name: "Department", path: "/admin/department", icon: <FaSitemap /> },
       { name: "Assign Department", path: "/admin/assignDepartment", icon: <FaUserTag /> },
+       { name: "Room Management", path: "/admin/roomManagement", icon: <FaHospital /> }, 
+      { name: "Room Allocation", path: "/admin/roomAllocation", icon: <FaBed /> },    
+
       { name: "Profile", path: "/admin/profile", icon: <FaUserTag /> }
 
     ],
@@ -52,13 +57,15 @@ const AdminSlidebar = ({ role, handleLogout }) => {
     ],
     nurse: [
       { name: "Dashboard", path: "/nurse/dashboard", icon: <FaThLarge /> },
-            { name: "Profile", path: "/nurse/profile", icon: <FaUserTag /> }
+       { name: "Patient Appointment", path: "/nurse/appointment", icon: <FaCalendarPlus /> },
+      { name: "Profile", path: "/nurse/profile", icon: <FaUserTag /> }
+     
 
     ],
     patient: [
       { name: "Dashboard", path: "/patient/dashboard", icon: <FaThLarge /> },
       { name: "Book Appointment", path: "/patient/appointment", icon: <FaCalendarPlus /> },
-      { name: "Records", path: "/patient/record", icon: <FaFileMedicalAlt /> },
+      { name: "Reports", path: "/patient/reports", icon: <FaFileMedicalAlt /> },
       { name: "Profile", path: "/patient/profile", icon: <FaUserTag /> }
 
     ],
@@ -110,7 +117,7 @@ const AdminSlidebar = ({ role, handleLogout }) => {
         )}
 
         
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-3 mb-5">
           <img src={trasparentLogo} className="w-9" />
           <h3 className="text-lg font-semibold text-[#01253c] tracking-wide">
             MediCore
@@ -118,13 +125,13 @@ const AdminSlidebar = ({ role, handleLogout }) => {
         </div>
 
         
-        <ul className="space-y-2">
+        <ul className="space-y-1.5">
           {menuItems[role]?.map((item, index) => (
             <NavLink
               key={index}
               to={item.path}
               className={({ isActive }) =>
-                `relative flex items-center gap-3 pl-4 pr-3 py-3 rounded-lg text-sm font-medium transition-all duration-200
+                `relative flex items-center gap-3 pl-3 pr-3 py-3 rounded-lg text-xs font-medium transition-all duration-200
                 ${
                   isActive
                     ? "bg-[#1b2b41] text-white shadow-sm"

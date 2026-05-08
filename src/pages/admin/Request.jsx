@@ -51,8 +51,6 @@ const NoRequests = () => {
     try {
       setRequestId(actionId);
 
-     
-
       const response = await api.post(
         "/api/request/updateRequest",
         { id: actionId, action: selectedAction },
@@ -71,7 +69,7 @@ const NoRequests = () => {
   const handleActionCancel = () => setShowActionPopup(false);
   const handleActionCross = () => setShowActionPopup(false);
 
-  const nextAction = currentAction === "accepted" ? "accept" : "reject";
+  const nextAction = currentAction === "accepted" ? "Accept" : "Reject";
 
 
   const getRoleStyles = (role) => {

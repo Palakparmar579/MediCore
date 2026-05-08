@@ -2,7 +2,7 @@ import React from "react";
 
 function DashboardCard({ title, count, icon }) {
   return (
-    <div className="relative overflow-hidden flex items-center gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 rounded-xl
+    <div className="relative overflow-hidden flex items-center gap-3 sm:gap-4 p-6 sm:p-6 md:p-5 rounded-xl
       bg-white
       border border-[#01253c]/10
       shadow-sm

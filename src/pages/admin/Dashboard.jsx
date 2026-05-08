@@ -29,7 +29,6 @@ function Dashboard() {
     patient: 0,
   });
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     fetchStats();
@@ -100,7 +99,7 @@ function Dashboard() {
 
        
         <div className="mt-4">
-          <div className="grid gap-3 sm:gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-3  grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
             {cards.map((card, index) => (
               <div key={index} className="w-full">
                 <DashboardCard
@@ -115,96 +114,111 @@ function Dashboard() {
       </div>
 
      
-      <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 mt-6 sm:mt-8 px-3 sm:px-6 lg:px-16 max-w-[1140px] mx-auto">
+    <div className="mt-6 sm:mt-8 px-3 sm:px-6 lg:px-16 max-w-[1140px] mx-auto 
+                grid grid-cols-1 md:grid-cols-1 gap-4 sm:gap-6 lg:flex lg:flex-row">
 
-       
-        <div className="w-full lg:w-1/2 h-[320px] sm:h-[380px] md:h-[420px] bg-white rounded-xl shadow-md p-3 sm:p-4 md:p-5">
-          <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 mb-1">
-            Users by Role
-          </h3>
-          <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
-            Overview of how users are distributed across different roles.
-          </p>
-          {totalCount === 0 ? (
-            <p className="text-sm text-gray-400 flex justify-center pt-16 sm:pt-20">
-              No data available at the moment.
-            </p>
-          ) : (
-            <ResponsiveContainer width="100%" height="80%">
-              <BarChart data={data}>
-                <CartesianGrid strokeDasharray="4 4" stroke="#e5e7eb" />
-                <XAxis dataKey="role" axisLine={false} tickLine={false} tick={{ fontSize: 12 }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12 }} />
-                <Tooltip />
-                <Bar dataKey="users" radius={[6, 6, 0, 0]}>
-                  {data.map((entry, index) => (
-                    <Cell key={index} fill={getColor(entry.role)} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          )}
-        </div>
+ 
+  <div className="w-full min-h-[320px] sm:min-h-[380px] md:min-h-[420px] 
+                  bg-white rounded-xl shadow-md p-4 flex flex-col">
+    
+    <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 mb-1">
+      Users by Role
+    </h3>
+    <p className="text-xs sm:text-sm text-gray-500 mb-4">
+      Overview of how users are distributed across different roles.
+    </p>
 
-        {/* Pie Chart */}
-        <div className="w-full lg:w-1/2 h-[320px] sm:h-[380px] md:h-[420px] bg-white rounded-xl shadow-md p-3 sm:p-4 md:p-5">
-          <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 mb-1">
-            User Distribution
-          </h3>
-          <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
-            Percentage breakdown of users based on roles.
-          </p>
-          {totalCount === 0 ? (
-            <div className="flex items-center justify-center h-[200px]">
-              <p className="text-sm text-gray-400 text-center">
-                No data available at the moment,
-                <br />
-                data will appear here once it is added.
-              </p>
-            </div>
-          ) : (
-            <ResponsiveContainer width="100%" height="97%">
-              <PieChart>
-                <Pie
-                  data={data}
-                  dataKey="users"
-                  nameKey="role"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius="45%"
-                  innerRadius="28%"
-                  paddingAngle={4}
-                  stroke="none"
-                  label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
-                >
-                  {data.map((entry, index) => (
-                    <Cell key={index} fill={getColor(entry.role)} />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <text
-                  x="50%"
-                  y="48%"
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  className="text-xl sm:text-2xl font-bold fill-gray-800"
-                >
-                  {doctorCount + nurseCount + patientCount}
-                </text>
-                <text
-                  x="50%"
-                  y="58%"
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  className="text-xs sm:text-sm fill-gray-500"
-                >
-                  Total Users
-                </text>
-              </PieChart>
-            </ResponsiveContainer>
-          )}
-        </div>
+    {totalCount === 0 ? (
+      <div className="flex flex-1 items-center justify-center">
+        <p className="text-sm text-gray-400">
+          No data available at the moment.
+        </p>
       </div>
+    ) : (
+      <div className="flex-1">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data}>
+            <CartesianGrid strokeDasharray="4 4" stroke="#e5e7eb" />
+            <XAxis dataKey="role" axisLine={false} tickLine={false} />
+            <YAxis axisLine={false} tickLine={false} />
+            <Tooltip />
+            <Bar dataKey="users" radius={[6, 6, 0, 0]}>
+              {data.map((entry, index) => (
+                <Cell key={index} fill={getColor(entry.role)} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    )}
+  </div>
+
+
+  <div className="w-full min-h-[320px] sm:min-h-[380px] md:min-h-[420px] 
+                  bg-white rounded-xl shadow-md p-4 flex flex-col">
+    
+    <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 mb-1">
+      User Distribution
+    </h3>
+    <p className="text-xs sm:text-sm text-gray-500 mb-4">
+      Percentage breakdown of users based on roles.
+    </p>
+
+    {totalCount === 0 ? (
+      <div className="flex flex-1 items-center justify-center">
+        <p className="text-sm text-gray-400 text-center">
+          No data available at the moment,
+          <br />
+          data will appear here once it is added.
+        </p>
+      </div>
+    ) : (
+      <div className="flex-1">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={data}
+              dataKey="users"
+              nameKey="role"
+              cx="50%"
+              cy="50%"
+              outerRadius="80%"
+              innerRadius="50%"
+              paddingAngle={4}
+              stroke="none"
+              label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
+            >
+              {data.map((entry, index) => (
+                <Cell key={index} fill={getColor(entry.role)} />
+              ))}
+            </Pie>
+            <Tooltip />
+
+            <text
+              x="50%"
+              y="48%"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="text-lg sm:text-xl md:text-2xl font-bold fill-gray-800"
+            >
+              {doctorCount + nurseCount + patientCount}
+            </text>
+
+            <text
+              x="50%"
+              y="58%"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="text-xs sm:text-sm fill-gray-500"
+            >
+              Total Users
+            </text>
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+    )}
+  </div>
+</div>
     </div>
   );
 }

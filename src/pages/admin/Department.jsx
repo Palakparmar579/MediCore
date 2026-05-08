@@ -106,7 +106,7 @@ const Department = () => {
           `/api/department/editDep/${editId}`,
           { department: form.department, description: form.description }
         );
-        toast.success("User updated successfully");
+        toast.success("Details updated successfully");
       } else {
        
         response = await api.post(
@@ -117,6 +117,7 @@ const Department = () => {
         toast.success("Details added successfully!");
       }
       fetchDetail(page);
+      fetchStats();
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
     }
@@ -163,6 +164,7 @@ const Department = () => {
       );
       toast.success("Status Updated Successfully");
       fetchDetail();
+       fetchStats();
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
     }
@@ -190,6 +192,7 @@ const Department = () => {
 
   const handleAddDepartment = () => setShowForm(true);
 
+  
   return (
     <div className=" min-h-screen">
 
@@ -434,7 +437,7 @@ const Department = () => {
           <button
             disabled={page === 1}
             onClick={() => setPage(page - 1)}
-            className="px-2 sm:px-3 py-1 rounded-md border text-gray-600 hover:bg-[#00455c] hover:text-white transition disabled:opacity-40 disabled:cursor-not-allowed"
+            className="  cursor-pointer px-2 sm:px-3 py-1 rounded-md border text-gray-600 hover:bg-[#00455c] hover:text-white transition disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Pre
           </button>
@@ -444,7 +447,7 @@ const Department = () => {
               <button
                 key={pg}
                 onClick={() => setPage(pg)}
-                className={`w-6 h-6 flex items-center justify-center rounded text-[11px] border transition
+                className={` cursor-pointer w-6 h-6 flex items-center justify-center rounded text-[11px] border transition
                   ${
                     page === pg
                       ? "bg-[#00455c] text-white border-[#00455c]"
@@ -459,7 +462,7 @@ const Department = () => {
           <button
             disabled={page === totalPages}
             onClick={() => setPage(page + 1)}
-            className="px-2 sm:px-3 py-1 rounded-md border text-gray-600 hover:bg-[#00455c] hover:text-white transition disabled:opacity-40 disabled:cursor-not-allowed"
+            className=" cursor-pointer px-2 sm:px-3 py-1 rounded-md border text-gray-600 hover:bg-[#00455c] hover:text-white transition disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Next
           </button>

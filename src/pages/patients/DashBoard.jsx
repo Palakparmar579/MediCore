@@ -6,29 +6,40 @@ import DashboardCard from "../../component/CommonPages/DashboardCard";
 
 function PatientDashboard() {
   const [data, setData] = useState(null);
-
+  const [appointment,setAppiontment]=useState([])
   useEffect(() => {
     fetchData();
+    fetchAppointment()
   }, []);
 
+const fetchAppointment=async()=>{
+  try{
+    const res=await api.get("/api/appointmentPatient/getAppointment")
+  setAppiontment(res.data)
+  }
+  catch(error){
+    toast.error(error?.response?.data?.message||"Something went worng")
+  }
+}
+const appointmentCount = appointment.length ? appointment.length : 0;
 const cards = [
   {
     title: "Total Appointments",
-    count: 5,
+    count: appointmentCount,
     icon: <FaCalendarCheck className="text-xl text-blue-500" />,
     bg: "bg-blue-50",
     ring: "ring-blue-100",
   },
   {
     title: "Reports",
-    count: 4,
+    count: 0,
     icon: <FaFileMedical className="text-xl text-emerald-500" />,
     bg: "bg-emerald-50",
     ring: "ring-emerald-100",
   },
   {
     title: "Doctor Visited",
-    count: 3,
+    count: 0,
     icon: <FaUserMd className="text-xl text-indigo-500" />,
     bg: "bg-indigo-50",
     ring: "ring-indigo-100",
@@ -49,10 +60,10 @@ console.log("09090",data)
 
       <div className="max-w-6xl mx-auto space-y-6">
 
-        {/* ================= HERO CARD ================= */}
+       
         <div className="relative bg-[#1b2b41] rounded-3xl shadow-xl p-6 sm:p-8 text-white overflow-hidden">
 
-          {/* subtle glow */}
+         
           <div className="absolute -top-20 -right-20 w-72 h-72 bg-[#a3f3f1]/20 blur-3xl rounded-full"></div>
           <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-white/10 blur-3xl rounded-full"></div>
 

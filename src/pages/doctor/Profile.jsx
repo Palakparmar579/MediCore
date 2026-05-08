@@ -15,6 +15,7 @@ const Profile = () => {
   const [editOpen, setEditOpen] = useState(false);
   const [loading,setLoading]=useState(false)
    const [data, setData] = useState(null);
+   const [userData,setUserData]=useState(null)
   const [fileUpload,setFileUpload]=useState({
     profilePlus: "",
   })
@@ -26,15 +27,25 @@ const Profile = () => {
     deptNum:""
   });
 useEffect(()=>{
- 
+  fetchUser()
   fetchDashboard();
 },[])
 
  
-
+const fetchUser=async()=>{
+  try{
+  const response=await api.get("/api/auth/getMyProfile")
+  
+  setUserData(response.data.data)
+  }
+  catch(error){
+    toast.error("Something went wrong")
+  }
+}
 
 
 const fetchDashboard = async () => {
+
   try {
     const res = await api.get("/api/doctorAppointment/getDoctorData");
     setData(res.data);
@@ -42,7 +53,6 @@ const fetchDashboard = async () => {
       name: res.data?.doctor?.name || "",         
       phone: res.data?.doctor?.phone || "",        
       experience: res.data?.doctor?.experience || "", 
-     
       department: res.data?.department?.department || "",     
       deptNum: res.data?.deptNum || ""              
     });
@@ -94,6 +104,8 @@ const handleSubmit=async(e)=>{
       experience: res.data.user?.experience || prev.experience,
     }));
       setEditOpen(false);
+      await fetchUser();
+await fetchDashboard();
     } catch (err) {
       toast.error(err.response?.data?.message || "Update failed");
     } finally {
@@ -175,25 +187,25 @@ const handleSubmit=async(e)=>{
 
         <div className="flex justify-between">
           <span className="text-gray-500">Name</span>
-          <span className="font-medium text-gray-800">{form.name}</span>
+          <span className="font-medium text-gray-800">{userData?.name || form.name || "N/A"}</span>
         </div>
 
         <div className="flex justify-between">
           <span className="text-gray-500">Email</span>
           <span className="font-medium text-gray-800">
-            {form.email || "example@email.com"}
+            {userData?.email}
           </span>
         </div>
 
         <div className="flex justify-between">
           <span className="text-gray-500">Mobile</span>
-          <span className="font-medium text-gray-800">{form.phone}</span>
+          <span className="font-medium text-gray-800">{form.phone||"+91 0000000000"}</span>
         </div>
 
         <div className="flex justify-between">
           <span className="text-gray-500">Role</span>
           <span className="font-medium text-[#005f73]">
-            {form.role || "Doctor"}
+            {userData?.role || "Doctor"}
           </span>
         </div>
 
@@ -255,7 +267,9 @@ const handleSubmit=async(e)=>{
             </p>
           </div>
 
-         
+          {
+           data &&
+          <>
           <div className="bg-white text-black rounded-2xl p-6 relative overflow-hidden">
 
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
@@ -284,8 +298,12 @@ const handleSubmit=async(e)=>{
 
             </div>
           </div>
+          </>}
         </div>
+        
       </div>
+
+
 
 {editOpen && (
   <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 md:p-6 z-[1999] overflow-y-auto">
@@ -324,7 +342,12 @@ const handleSubmit=async(e)=>{
             />
           </div>
 
+         {
+           data &&
+          <>
          
+         
+          
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
             <label className="text-sm font-semibold sm:w-32 text-gray-700">
               Department
@@ -351,7 +374,9 @@ const handleSubmit=async(e)=>{
               className="flex-1 cursor-not-allowed text-gray-400 border border-gray-300 rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-[#005f73]/40 focus:border-[#005f73]"
             />
           </div>
-
+          </>
+          
+}
         
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
             <label className="text-sm font-semibold sm:w-32 text-gray-700">

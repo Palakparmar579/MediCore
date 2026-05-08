@@ -21,6 +21,11 @@ import Profile from './pages/admin/Profile';
 import PatientProfile from './pages/patients/Profile';
 import NurseProfile from './pages/nurse/Profile';
 import DoctorProfile from './pages/doctor/Profile';
+import RoomManagement from './pages/admin/RoomManagement'
+import RoomAllocation from './pages/admin/RoomAllocation'
+import Patient from './pages/doctor/Patient'
+import PatientReports from './pages/patients/PatientReports'
+import PatientAppointments from './pages/nurse/Patient Appointment';
 function App(){ 
 return(
     <BrowserRouter>
@@ -32,9 +37,9 @@ return(
          <Route element={<ProtectedRoute />}>
 
 
-        {/* Admin Layout with nested pages */}
+       
         <Route path="/admin" element={<CommonLayout/>}>
-         {/* Default page */}
+         
          <Route index element={<Navigate to ='Dashboard' replace/>} />
          <Route path="dashboard" element={<Dashboard />} />
         <Route path="manageRoles" element={<ManageRoles />} />
@@ -42,26 +47,33 @@ return(
         <Route path="department" element={<Department/>}/>
         <Route path="assignDepartment" element={<AssignDepartment/>}/>
          <Route path="profile" element={<Profile/>}/>
-        </Route> {/* <-- Properly close the parent Route */}
+         <Route path="roomManagement" element={<RoomManagement/>}/>
+         <Route path="roomAllocation" element={<RoomAllocation/>}/>
+        </Route>
 
+
+         {/* Doctor */}
         <Route path='/doctor' element={<CommonLayout/>}>
         <Route index element={<Navigate to ='Dashboard' replace/>} />
         <Route path='dashboard' element={<DoctorDashboard/>}/>
         <Route path='appointment' element={<AppointmentTable/>}/>
         <Route path="profile" element={<DoctorProfile/>}/>
+        <Route path="patient" element={<Patient/>}/>
         </Route>
-        {/* Doctor */}
+       
 
          <Route path='/patient' element={<CommonLayout/>}>
        <Route index element={<Navigate to ='Dashboard' replace/>} />
         <Route path='dashboard' element={<PatientDashboard/>}/>
         <Route path='appointment' element={<Appointment/>}/>
         <Route path="profile" element={<PatientProfile/>}/>
+        <Route path="reports" element={<PatientReports/>}/>
         </Route>
 
          <Route path='/nurse' element={<CommonLayout/>}>
         <Route index element={<Navigate to ='Dashboard' replace/>} />
         <Route path='dashboard' element={<NurseDashboard/>}/>
+         <Route path='appointment' element={<PatientAppointments/>}/>
         <Route path="profile" element={<NurseProfile/>}/>
 
         </Route>

@@ -108,16 +108,16 @@ function Login() {
  return (
   <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-to-br from-[#0b1220] via-[#0f172a] to-[#1e3a8a] relative overflow-hidden">
 
-    {/* Background glow */}
+   
     <div className="absolute w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[160px] top-[-150px] left-[-150px]"></div>
     <div className="absolute w-[450px] h-[450px] bg-indigo-500/10 rounded-full blur-[160px] bottom-[-120px] right-[-120px]"></div>
 
-    {/* Card */}
+   
     <div className="relative w-full max-w-md bg-[#0f172a]/90 backdrop-blur-xl border border-blue-900/40 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.6)] px-6 py-10 sm:px-10">
 
       <div className="text-center mb-8">
 
-        {/* Logo Glow */}
+       
         <div className="relative w-16 h-16 mx-auto flex items-center justify-center">
 
           <div className="absolute w-20 h-20 bg-blue-500/30 blur-2xl rounded-full"></div>

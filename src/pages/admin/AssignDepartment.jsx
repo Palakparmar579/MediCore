@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import api from "../../Config/Axios";
 import MiniLoader from "../../component/CommonPages/MiniLoader";
 import useTitle from "../../hooks/userTitle";
-
+import CustomToolTip from "../../component/CommonPages/CustomToolTip";
 
 function AssignDepartment() {
   useTitle("Assign Department")
@@ -102,7 +102,7 @@ useEffect(() => {
     }));
 
     setSelectedDepartment(selected);
-    setErrors({})
+   setErrors(prev => ({ ...prev, department: undefined }));
   };
 
  
@@ -116,6 +116,7 @@ useEffect(() => {
       doctors: [],
       nurses: [],
     });
+      setSelectedDepartment({}); 
     
   };
 
@@ -138,28 +139,26 @@ useEffect(() => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-   const errors={}
+   const newErrors = {};
     if (!formData.department) {
-     errors.department="Department is required!";
+     newErrors.department="Department is required!";
     }
 
-    if (formData.doctors.length < 3) {
-      errors.doctors="Please select at least 3 doctors!";
+    if (formData.doctors.length < 2) {
+      newErrors.doctors="Please select at least 3 doctors!";
     }
 
     if (formData.nurses.length < 2) {
-     errors.nurses= "Please select at least 2 nurses!";
+     newErrors.nurses= "Please select at least 2 nurses!";
     }
- setErrors(errors);
+ setErrors(newErrors);
 
-   
-    if(Object.keys(errors).length>0){
-     return 
-    }
+if (Object.keys(newErrors).length > 0) return;
    setErrors({});
     try {
       let response;
       if (editId) {
+        setShowLoader(true)
         response = await api.put(
           `/api/assignment/editAssignment/${editId}`,
           {
@@ -171,6 +170,7 @@ useEffect(() => {
         );
         toast.success("Department Assignment updated successfully");
       } else {
+        setShowLoader(true)
         response = await api.post(
           "/api/assignment/addAssignment",
           {
@@ -183,12 +183,7 @@ useEffect(() => {
        await fetchAssignment(page);
         toast.success("Department assigned successfully");    
       }
-
      
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong");
-    }
-    setShowForm(false);
     setformData({
       department: "",
       deptNo: "",
@@ -197,6 +192,15 @@ useEffect(() => {
     });
     setEditId(null);
     setSelectedDepartment({});
+    setShowForm(false)
+     
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    }
+    finally{
+      setShowLoader(false)
+    }
+   
   };
 
   console.log("DEPARTMENT DATA:", departmentData);
@@ -308,7 +312,7 @@ useEffect(() => {
                
                 <div className="bg-white p-3 sm:p-4 rounded-xl shadow-sm">
                   <label className="text-sm font-semibold text-gray-700">
-                    Select Doctors <span className="text-red-500">(Min 3)</span>
+                    Select Doctors <span className="text-red-500">(Min 2)</span>
                   </label>
                   <div className="mt-3">
                     <Multiselect
@@ -317,11 +321,12 @@ useEffect(() => {
                       selectedValues={formData.doctors}
                       onSelect={(list) => {
                         setformData((prev) => ({ ...prev, doctors: list }));
-                        setErrors({});
+                         setErrors(prev => ({ ...prev, doctors: undefined }));
                       }}
                       onRemove={(list) => {
                         setformData((prev) => ({ ...prev, doctors: list }));
-                        if (list.length >= 3)  setErrors({});
+                        if (list.length >= 3) 
+                           setErrors(prev => ({ ...prev, doctors: undefined }));
                       }}
                       placeholder="Select Doctors"
                       style={{
@@ -352,11 +357,11 @@ useEffect(() => {
                       selectedValues={formData.nurses}
                       onSelect={(list) => {
                         setformData((prev) => ({ ...prev, nurses: list }));
-                         setErrors({});
+                          setErrors(prev => ({ ...prev, nurses: undefined }));;
                       }}
                       onRemove={(list) => {
                         setformData((prev) => ({ ...prev, nurses: list }));
-                        if (list.length >= 2)  setErrors({});
+                        if (list.length >= 2)  setErrors(prev => ({ ...prev, nurses: undefined }));;
                       }}
                       placeholder="Select Nurses"
                       style={{
@@ -522,7 +527,7 @@ useEffect(() => {
                       ))}
                     </div>
                   </div>
-
+                <CustomToolTip text="Edit">
                   <button
                     onClick={() => {
                       if (item.department?.status === "inactive") return;
@@ -537,6 +542,7 @@ useEffect(() => {
                   >
                     Edit
                   </button>
+                  </CustomToolTip>
                 </div>
               </div>
 

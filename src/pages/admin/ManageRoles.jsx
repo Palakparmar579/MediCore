@@ -240,7 +240,10 @@ function ManageRoles() {
     }
   };
 
-  const handleAddUser = () => setshowForm(true);
+  const handleAddUser = () =>{ setshowForm(true)
+     setformData({ role: "", name: "", age: "", email: "" });
+  }
+  ;
 
   return (
     <div className="min-h-screen">
